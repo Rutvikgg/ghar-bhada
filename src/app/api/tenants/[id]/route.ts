@@ -1,10 +1,10 @@
 import dbConnect from "@/lib/dbConnect";
 import Tenant from "@/models/Tenant";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
-  req: Request,
-  { params }: { params: { id: string } }
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   await dbConnect();
   const { id } = await params;
@@ -31,8 +31,8 @@ export async function GET(
 }
 
 export async function PUT(
-  req: Request,
-  { params }: { params: { id: string } }
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   await dbConnect();
   const { id } = await params;
@@ -74,8 +74,8 @@ export async function PUT(
 }
 
 export async function DELETE(
-  req: Request,
-  { params }: { params: { id: string } }
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   await dbConnect();
   const { id } = await params;

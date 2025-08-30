@@ -1,10 +1,10 @@
 import dbConnect from "@/lib/dbConnect";
 import RentCollection from "@/models/RentCollection";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
-  req: Request,
-  { params }: { params: { id: string } }
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   await dbConnect();
   const { id } = await params;
@@ -35,8 +35,8 @@ export async function GET(
 
 // DELETE endpoint to remove a specific rent collection by its ID
 export async function DELETE(
-  req: Request,
-  { params }: { params: { id: string } }
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   await dbConnect();
   const { id } = await params;
