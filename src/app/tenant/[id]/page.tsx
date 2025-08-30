@@ -44,8 +44,6 @@ import Link from "next/link";
 // to resolve the compilation errors and ensure the component is self-contained.
 // A simple state-based message display is used instead of a toast.
 
-const API_URL = "http://localhost:3000/api";
-
 interface Tenant {
   _id: string;
   name: string;
@@ -227,12 +225,12 @@ export default function TenantDetailsPage() {
   const fetchTenantData = async () => {
     if (!id) return;
     try {
-      const tenantRes = await fetch(`${API_URL}/tenants/${id}`);
+      const tenantRes = await fetch(`/api/tenants/${id}`);
       if (!tenantRes.ok) throw new Error("Failed to fetch tenant data");
       const tenantData = await tenantRes.json();
       setTenant(tenantData.data);
 
-      const rentRes = await fetch(`${API_URL}/rent/${id}`);
+      const rentRes = await fetch(`/api/rent/${id}`);
       if (rentRes.status === 404) {
         setRentCollections([]);
       } else if (!rentRes.ok) {
@@ -321,7 +319,7 @@ export default function TenantDetailsPage() {
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${API_URL}/rent`, {
+      const response = await fetch(`/api/rent`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -361,7 +359,7 @@ export default function TenantDetailsPage() {
     if (!rentToDeleteId) return;
 
     try {
-      const response = await fetch(`${API_URL}/rent/${rentToDeleteId}`, {
+      const response = await fetch(`/api/rent/${rentToDeleteId}`, {
         method: "DELETE",
       });
 
