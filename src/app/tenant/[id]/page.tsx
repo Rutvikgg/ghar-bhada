@@ -38,6 +38,7 @@ import {
   ArrowUp,
   ArrowDown,
 } from "lucide-react";
+import Link from "next/link";
 
 // NOTE: The `useParams`, `Link`, and `useToast` imports have been removed
 // to resolve the compilation errors and ensure the component is self-contained.
@@ -192,7 +193,7 @@ const RentFormContent: React.FC<RentFormContentProps> = ({
 );
 
 export default function TenantDetailsPage() {
-  const [id, setId] = useState(null);
+  const [id, setId] = useState<string | null>(null);
   const [tenant, setTenant] = useState<Tenant | null>(null);
   const [rentCollections, setRentCollections] = useState<RentCollection[]>([]);
   const [loading, setLoading] = useState(true);
@@ -251,10 +252,11 @@ export default function TenantDetailsPage() {
     if (id) {
       fetchTenantData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const sortedRentCollections = useMemo(() => {
-    let sortableItems = [...rentCollections];
+    const sortableItems = [...rentCollections];
     sortableItems.sort((a, b) => {
       const dateA = new Date(a.collection_date).getTime();
       const dateB = new Date(b.collection_date).getTime();
@@ -407,12 +409,12 @@ export default function TenantDetailsPage() {
           <p className="text-red-600 mb-4">
             An error occurred: {error || "Tenant not found."}.
           </p>
-          <a href="/">
+          <Link href="/" passHref>
             <Button className="bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white rounded-xl px-6 py-3">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Go Back
             </Button>
-          </a>
+          </Link>
         </div>
       </div>
     );
@@ -442,13 +444,13 @@ export default function TenantDetailsPage() {
             <Home className="h-10 w-10 text-blue-600" />
             Tenant Details - भाडेकरू माहिती
           </h1>
+          <Link href="/" passHref>
+            <Button className="bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-xl px-4 py-2 transition-all duration-300">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to List
+            </Button>
+          </Link>
         </div>
-        <a href="/">
-          <Button className="bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-xl px-4 py-2 transition-all duration-300">
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to List
-          </Button>
-        </a>
       </div>
 
       <Card className="shadow-xl rounded-2xl border-0 bg-white/80 backdrop-blur-sm mt-8 p-0">

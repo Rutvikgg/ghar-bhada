@@ -2,7 +2,10 @@ import dbConnect from "@/lib/dbConnect";
 import Tenant from "@/models/Tenant";
 import { NextResponse } from "next/server";
 
-export async function GET(req, { params }) {
+export async function GET(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
   await dbConnect();
   const { id } = await params;
 
@@ -17,13 +20,20 @@ export async function GET(req, { params }) {
     return NextResponse.json({ success: true, data: tenant }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
-      { success: false, error: error.message },
+      {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "An unknown error occurred.",
+      },
       { status: 400 }
     );
   }
 }
 
-export async function PUT(req, { params }) {
+export async function PUT(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
   await dbConnect();
   const { id } = await params;
 
@@ -53,13 +63,20 @@ export async function PUT(req, { params }) {
     return NextResponse.json({ success: true, data: tenant }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
-      { success: false, error: error.message },
+      {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "An unknown error occurred.",
+      },
       { status: 400 }
     );
   }
 }
 
-export async function DELETE(req, { params }) {
+export async function DELETE(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
   await dbConnect();
   const { id } = await params;
 
@@ -76,7 +93,11 @@ export async function DELETE(req, { params }) {
     return NextResponse.json({ success: true, data: {} }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
-      { success: false, error: error.message },
+      {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "An unknown error occurred.",
+      },
       { status: 400 }
     );
   }

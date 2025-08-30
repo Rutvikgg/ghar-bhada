@@ -31,7 +31,6 @@ import {
   Zap,
   MoreVertical,
   ArrowRight,
-  ArrowBigRightDash,
   ArrowBigDownDash,
 } from "lucide-react";
 import {
@@ -56,9 +55,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
-// This is a placeholder for your API URL
-const API_URL = "http://localhost:3000/api";
 
 interface Tenant {
   _id: string;
@@ -87,13 +83,13 @@ export default function TenantDashboard() {
   } as {
     name: string;
     mobile_number: string;
-    rent_amount: string;
+    rent_amount: string | number;
     sr_no: string | number;
   });
 
   const fetchTenants = async () => {
     try {
-      const response = await fetch(`${API_URL}/tenants`);
+      const response = await fetch(`/api/tenants`);
       if (!response.ok) {
         throw new Error("Failed to fetch tenants");
       }
@@ -132,7 +128,7 @@ export default function TenantDashboard() {
     if (!deletingTenant) return;
 
     try {
-      const response = await fetch(`${API_URL}/tenants/${deletingTenant._id}`, {
+      const response = await fetch(`/api/tenants/${deletingTenant._id}`, {
         method: "DELETE",
       });
 
@@ -193,28 +189,28 @@ export default function TenantDashboard() {
       let response;
       if (currentTenant) {
         // Edit existing tenant
-        response = await fetch(`${API_URL}/tenants/${currentTenant._id}`, {
+        response = await fetch(`/api/tenants/${currentTenant._id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
             ...formData,
-            rent_amount: parseFloat(formData.rent_amount),
-            sr_no: parseInt(formData.sr_no, 10),
+            rent_amount: parseFloat(formData.rent_amount.toString()),
+            sr_no: parseInt(formData.sr_no.toString(), 10),
           }),
         });
       } else {
         // Add new tenant
-        response = await fetch(`${API_URL}/tenants`, {
+        response = await fetch(`/api/tenants`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
             ...formData,
-            rent_amount: parseFloat(formData.rent_amount),
-            sr_no: parseInt(formData.sr_no, 10),
+            rent_amount: parseFloat(formData.rent_amount.toString()),
+            sr_no: parseInt(formData.sr_no.toString(), 10),
           }),
         });
       }
